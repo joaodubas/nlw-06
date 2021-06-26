@@ -4,8 +4,10 @@ defmodule WabanexWeb.Schema.Types.Root do
   alias Crudry.Middlewares.TranslateErrors
 
   alias WabanexWeb.Resolvers.User, as: UserResolver
+  alias WabanexWeb.Schema.Types
 
-  import_types WabanexWeb.Schema.Types.User
+  import_types Types.Custom.UUID4
+  import_types Types.User
 
   object :root_query do
     field :get_user, type: :user do
