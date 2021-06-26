@@ -17,6 +17,8 @@ defmodule Wabanex.Training do
 
     belongs_to :user, User
 
+    has_many :exercises, Exercise
+
     timestamps()
   end
 
@@ -24,5 +26,6 @@ defmodule Wabanex.Training do
     %__MODULE__{}
     |> cast(params, @fields)
     |> validate_required(@required_fields)
+    |> cast_assoc(:exercises)
   end
 end
