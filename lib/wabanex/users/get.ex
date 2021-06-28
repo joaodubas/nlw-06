@@ -25,7 +25,7 @@ defmodule Wabanex.Users.Get do
 
     query =
       from(t in Training,
-        where: ^today >= t.start_date and ^today <= t.end_date
+        where: fragment("?::date <@ ?", ^today, t.period)
       )
 
     Repo.preload(user, trainings: {first(query, :inserted_at), :exercises})
