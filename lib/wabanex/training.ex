@@ -3,17 +3,16 @@ defmodule Wabanex.Training do
 
   import Ecto.Changeset
 
+  alias PgRanges.DateRange
   alias Wabanex.{Exercise, User}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
-  @fields [:start_date, :end_date, :user_id]
-  @required_fields [:start_date, :user_id]
+  @fields [:period, :user_id]
 
   schema "trainings" do
-    field :start_date, :date
-    field :end_date, :date
+    field :period, DateRange, default: DateRange.new(Date.utc_today(), nil)
 
     belongs_to :user, User
 
@@ -25,7 +24,8 @@ defmodule Wabanex.Training do
   def changeset(params) do
     %__MODULE__{}
     |> cast(params, @fields)
-    |> validate_required(@required_fields)
+    |> validate_required(@fields)
+    |> exclusion_constraint(:period, name: :non_overlap_period)
     |> cast_assoc(:exercises)
   end
 end
