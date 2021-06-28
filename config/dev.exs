@@ -2,10 +2,10 @@ use Mix.Config
 
 # Configure your database
 config :wabanex, Wabanex.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("POSTGRES_USER") || "postgres",
+  password: System.get_env("POSTGRES_PASS") || "postgres",
   database: "wabanex_dev",
-  hostname: "localhost",
+  hostname: System.get_env("POSTGRES_HOST") || "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
