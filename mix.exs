@@ -9,6 +9,7 @@ defmodule Wabanex.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      dialyzer: [plt_core_path: "priv/plts"],
       aliases: aliases(),
       deps: deps()
     ]
@@ -46,7 +47,9 @@ defmodule Wabanex.MixProject do
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
       {:crudry, "~> 2.4.0"},
-      {:pg_ranges, "~> 1.1"}
+      {:pg_ranges, "~> 1.1"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false}
     ]
   end
 
