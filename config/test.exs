@@ -20,3 +20,10 @@ config :wabanex, WabanexWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :junit_formatter,
+  report_file: "test_report.xml",
+  report_dir: "report/test",
+  automatic_create_dir?: true,
+  include_filename?: true,
+  include_file_line?: true
