@@ -126,3 +126,8 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASS: postgres
+      - name: publish test results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v1
+        if: always()
+        with:
+          files: 'report/test/*.xml'
