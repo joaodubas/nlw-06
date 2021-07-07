@@ -79,7 +79,11 @@ jobs:
             priv/plts
           key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
       - run: mix format --check-formatted
-      - run: mix credo --strict --format flycheck
+      - name: credo analysis
+        uses: red-shirts/reviewdog-action-credo@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
       - run: mix dialyzer --no-check --quiet --ignore-exit-status --format short
   test:
     needs: dependencies
