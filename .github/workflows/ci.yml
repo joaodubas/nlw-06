@@ -131,3 +131,8 @@ jobs:
         if: always()
         with:
           files: 'report/test/*.xml'
+      - name: publish coverage report
+        uses: romeovs/lcov-reporter-action@v0.2.16
+        if: always()
+        with:
+          lcov-file: 'cover/lcov.info'
