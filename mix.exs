@@ -10,6 +10,8 @@ defmodule Wabanex.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       dialyzer: [plt_core_path: "priv/plts"],
+      test_coverage: [tool: LcovEx, output: "cover"],
+      preferred_cli_env: [lcov: :test],
       aliases: aliases(),
       deps: deps()
     ]
@@ -43,7 +45,8 @@ defmodule Wabanex.MixProject do
       {:pg_ranges, "~> 1.1"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
-      {:junit_formatter, "~> 3.1", only: [:test]}
+      {:junit_formatter, "~> 3.1", only: [:test]},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false}
     ]
   end
 
