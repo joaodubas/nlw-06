@@ -1,0 +1,28 @@
+---
+kind: pipeline
+type: docker
+name: test
+
+trigger:
+  event:
+    include:
+      - push
+      - pull_request
+
+steps:
+  - name: test
+    image: 'elixir:1.21.1'
+    environemnt:
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: postgres
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix test --cover --trace --slowest 10
+
+services:
+  - name: db
+    image: 'postgres:13.3-alpine'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
