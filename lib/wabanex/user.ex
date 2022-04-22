@@ -1,4 +1,7 @@
 defmodule Wabanex.User do
+  @moduledoc """
+  Schema of a user in the system.
+  """
   use Ecto.Schema
 
   import Ecto.Changeset

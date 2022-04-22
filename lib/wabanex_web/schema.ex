@@ -1,4 +1,7 @@
 defmodule WabanexWeb.Schema do
+  @moduledoc """
+  GraphQL schema definition
+  """
   use Absinthe.Schema
 
   import_types WabanexWeb.Schema.Types.Root

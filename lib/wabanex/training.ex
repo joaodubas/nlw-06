@@ -1,4 +1,7 @@
 defmodule Wabanex.Training do
+  @moduledoc """
+  Schema of a training routine for a given period of time.
+  """
   use Ecto.Schema
 
   import Ecto.Changeset

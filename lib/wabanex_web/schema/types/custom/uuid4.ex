@@ -1,4 +1,7 @@
 defmodule WabanexWeb.Schema.Types.Custom.UUID4 do
+  @moduledoc """
+  GraphQL uuid v4 custom type.
+  """
   use Absinthe.Schema.Notation
 
   alias Ecto.UUID

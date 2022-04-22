@@ -1,4 +1,7 @@
 defmodule WabanexWeb.Schema.Types.Custom.DateRange do
+  @moduledoc """
+  Graphql date range custom type.
+  """
   use Absinthe.Schema.Notation
 
   alias Absinthe.Blueprint.Input

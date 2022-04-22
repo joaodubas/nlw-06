@@ -1,4 +1,7 @@
 defmodule WabanexWeb.Schema.Types.Training do
+  @moduledoc """
+  GraphQL training type definition.
+  """
   use Absinthe.Schema.Notation
 
   import_types WabanexWeb.Schema.Types.Custom.DateRange

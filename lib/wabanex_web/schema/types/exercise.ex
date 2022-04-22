@@ -1,4 +1,7 @@
 defmodule WabanexWeb.Schema.Types.Exercise do
+  @moduledoc """
+  GraphQL exercise type definition.
+  """
   use Absinthe.Schema.Notation
 
   @desc "Logic exercise representation"

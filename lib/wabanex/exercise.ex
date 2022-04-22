@@ -1,4 +1,7 @@
 defmodule Wabanex.Exercise do
+  @moduledoc """
+  Schema of a exercise contained within a training.
+  """
   use Ecto.Schema
 
   import Ecto.Changeset

@@ -1,4 +1,7 @@
 defmodule WabanexWeb.Schema.Types.User do
+  @moduledoc """
+  GraphQL user type definition.
+  """
   use Absinthe.Schema.Notation
 
   @desc "Logic user representation"

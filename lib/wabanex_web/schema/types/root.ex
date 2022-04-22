@@ -1,10 +1,13 @@
 defmodule WabanexWeb.Schema.Types.Root do
+  @moduledoc """
+  GraphQL root query/mutation aggregator.
+  """
   use Absinthe.Schema.Notation
 
   alias Crudry.Middlewares.TranslateErrors
 
-  alias WabanexWeb.Resolvers.User, as: UserResolver
   alias WabanexWeb.Resolvers.Training, as: TrainingResolver
+  alias WabanexWeb.Resolvers.User, as: UserResolver
   alias WabanexWeb.Schema.Types
 
   import_types Types.Custom.UUID4

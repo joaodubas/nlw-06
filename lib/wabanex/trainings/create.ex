@@ -1,5 +1,8 @@
 defmodule Wabanex.Trainings.Create do
-  alias Wabanex.{Training, Repo}
+  @moduledoc """
+  Context to create a training routine.
+  """
+  alias Wabanex.{Repo, Training}
 
   def call(params) do
     params

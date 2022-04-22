@@ -1,4 +1,7 @@
 defmodule Wabanex.Users.Get do
+  @moduledoc """
+  Context to fetch a given user and its current training.
+  """
   import Ecto.Query
 
   alias Wabanex.{Repo, Training, User}

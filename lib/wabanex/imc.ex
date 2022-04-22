@@ -1,4 +1,8 @@
 defmodule Wabanex.IMC do
+  @moduledoc """
+  Body mass index calculation
+  """
+
   def calculate(%{"filename" => filename}) do
     filename
     |> File.read()
@@ -7,11 +11,7 @@ defmodule Wabanex.IMC do
 
   defp handle_file({:ok, content}) do
     data =
-      content
-      |> String.trim()
-      |> String.split("\n")
-      |> Enum.map(&parse_line/1)
-      |> Enum.into(%{})
+      content |> String.trim() |> String.split("\n") |> Enum.map(&parse_line/1) |> Enum.into(%{})
 
     {:ok, data}
   end
