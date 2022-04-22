@@ -2,7 +2,7 @@
 version: '3.7'
 services:
   db:
-    image: 'postgres:13.3-alpine'
+    image: 'postgres:14.2-alpine'
     hostname: &db_host db
     environment:
       POSTGRES_USER: &db_user postgres
@@ -12,5 +12,40 @@ services:
       - './priv/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql'
       - 'db_data:/var/lib/postgresql/data'
     restart: unless-stopped
+  app:
+    image: 'elixir:1.13.4'
+    hostname: app
+    depends_on:
+      - db
+    init: true
+    environment:
+      POSTGRES_HOST: *db_host
+      POSTGRES_USER: *db_user
+      POSTGRES_PASS: *db_pass
+      POSTGRES_NAME: wabanex_dev
+    volumes:
+      - '.:/opt/app'
+      - 'app_build:/opt/app/_build'
+      - 'app_deps:/opt/app/deps'
+    working_dir: /opt/app
+    entrypoint: sleep
+    command: infinity
+  pgcli:
+    image: 'joaodubas/pgcli:latest'
+    hostname: development
+    depends_on:
+      - db
+    environment:
+      PGUSER: *db_user
+      PGPASSWORD: *db_pass
+      PGHOST: *db_host
+      PGDATABASE: wabanex_dev
+    volumes:
+      - './priv/docker/pgcli:/root/.config/pgcli'
+    restart: unless-stopped
+    entrypoint: sleep
+    command: 3650d
 volumes:
   db_data: {}
+  app_build: {}
+  app_deps: {}
