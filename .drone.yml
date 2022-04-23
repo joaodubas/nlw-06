@@ -5,8 +5,8 @@ name: test
 
 trigger:
   event:
-    include:
-      - pull_request
+    - push
+    - pull_request
 
 steps:
   - name: database healthcheck

@@ -1,0 +1,2 @@
+#!/bin/sh
+make static_code_analysis

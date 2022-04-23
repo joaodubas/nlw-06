@@ -1,9 +1,11 @@
 ---
 version: '3.7'
+
 services:
   db:
     image: 'postgres:14.2-alpine'
     hostname: &db_host db
+    init: true
     environment:
       POSTGRES_USER: &db_user postgres
       POSTGRES_PASSWORD: &db_pass postgres
@@ -45,6 +47,7 @@ services:
     restart: unless-stopped
     entrypoint: sleep
     command: 3650d
+
 volumes:
   db_data: {}
   app_build: {}

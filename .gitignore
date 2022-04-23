@@ -12,3 +12,6 @@
 erl_crash.dump
 *.ez
 wabanex-*.tar
+docker-compose.*.yml
+priv/docker/pgcli/history
+priv/docker/pgcli/log
