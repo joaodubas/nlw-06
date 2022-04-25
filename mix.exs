@@ -42,7 +42,7 @@ defmodule Wabanex.MixProject do
       {:pg_ranges, "~> 1.1"},
       {:phoenix, "~> 1.6.0"},
       {:phoenix_ecto, "~> 4.1"},
-      {:phoenix_live_dashboard, "~> 0.4"},
+      {:phoenix_live_dashboard, "~> 0.6"},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 0.4"},
