@@ -5,7 +5,6 @@ name: test
 
 trigger:
   event:
-    - push
     - pull_request
 
 steps:
@@ -17,6 +16,26 @@ steps:
       PGHOST: db
     commands:
       - while ! pg_isready; do sleep 1; done
+
+  - name: restore cache
+    image: 'meltwater/drone-cache:v1.3.0'
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio_user
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio_password
+    settings:
+      archive_format: gzip
+      bucket: trainlog-cache
+      cache_key: '{{ .Repo.Name }}-{{ checksum "mix.lock" }}'
+      endpoint: minio:9000
+      mount:
+        - _build
+        - deps
+      path_style: true
+      region: us-east-1
+      restore: true
+
   - name: test
     image: 'elixir:1.13.4'
     environment:
@@ -26,7 +45,33 @@ steps:
       POSTGRES_PASS: postgres
     commands:
       - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
-      - mix test --cover --trace --slowest 10
+      - make test
+
+  - name: lint
+    image: 'elixir:1.13.4'
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - make static_code_analysis
+
+  - name: rebuild cache
+    image: 'meltwater/drone-cache:v1.3.0'
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio_user
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio_password
+    settings:
+      archive_format: gzip
+      bucket: trainlog-cache
+      cache_key: '{{ .Repo.Name }}-{{ checksum "mix.lock" }}'
+      endpoint: minio:9000
+      exit_code: true
+      mount:
+        - _build
+        - deps
+      path_style: true
+      rebuild: true
+      region: us-east-1
 
 services:
   - name: db
