@@ -7,6 +7,8 @@ defmodule Wabanex.Application do
 
   def start(_type, _args) do
     children = [
+      # Start the PromEx supervisor
+      Wabanex.PromEx,
       # Start the Ecto repository
       Wabanex.Repo,
       # Start the Telemetry supervisor

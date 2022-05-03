@@ -14,6 +14,13 @@ config :wabanex, Wabanex.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]
 
+config :wabanex, Wabanex.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
+
 # Configures the endpoint
 config :wabanex, WabanexWeb.Endpoint,
   url: [host: "localhost"],

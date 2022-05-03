@@ -17,10 +17,11 @@ defmodule WabanexWeb.Schema.Types.Custom.DateRange do
   end
 
   @spec serialize_range(PgRanges.DateRange.t()) :: String.t()
-  @spec serialize_range(list(DateTime.t() | nil)) :: String.t()
+  @spec serialize_range(list(DateTime.t() | nil | atom)) :: String.t()
   defp serialize_range(%PgRanges.DateRange{lower: start_range, upper: end_range}),
     do: serialize_range([start_range, end_range])
 
+  defp serialize_range([start_range, :unbound]), do: serialize_range([start_range, nil])
   defp serialize_range([start_range, nil]), do: "#{Date.to_iso8601(start_range)},"
 
   defp serialize_range([start_range, end_range]),

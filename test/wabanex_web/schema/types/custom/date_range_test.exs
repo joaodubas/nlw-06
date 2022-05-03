@@ -28,6 +28,7 @@ defmodule WabanexWeb.Schema.Types.Custom.DateRangeTest do
     test "serialize a list of dates as a list of ISO8601 date strings" do
       assert "1978-12-15,1980-02-13" == serialize(:date_range, [~D[1978-12-15], ~D[1980-02-13]])
       assert "1978-12-15," == serialize(:date_range, [~D[1978-12-15], nil])
+      assert "1978-12-15," == serialize(:date_range, [~D[1978-12-15], :unbound])
     end
 
     test "serialize a postgres range as a list of ISO8601 date strings" do
@@ -35,6 +36,7 @@ defmodule WabanexWeb.Schema.Types.Custom.DateRangeTest do
                serialize(:date_range, DateRange.new(~D[1978-12-15], ~D[1980-02-13]))
 
       assert "1978-12-15," == serialize(:date_range, DateRange.new(~D[1978-12-15], nil))
+      assert "1978-12-15," == serialize(:date_range, DateRange.new(~D[1978-12-15], :unbound))
     end
 
     test "can be parsed from a string of ISO8601" do

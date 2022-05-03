@@ -30,23 +30,9 @@ services:
       - 'app_build:/opt/app/_build'
       - 'app_deps:/opt/app/deps'
     working_dir: /opt/app
-    entrypoint: sleep
-    command: infinity
-  pgcli:
-    image: 'joaodubas/pgcli:latest'
-    hostname: development
-    depends_on:
-      - db
-    environment:
-      PGUSER: *db_user
-      PGPASSWORD: *db_pass
-      PGHOST: *db_host
-      PGDATABASE: wabanex_dev
-    volumes:
-      - './priv/docker/pgcli:/root/.config/pgcli'
     restart: unless-stopped
     entrypoint: sleep
-    command: 3650d
+    command: infinity
 
 volumes:
   db_data: {}
