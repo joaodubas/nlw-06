@@ -9,7 +9,7 @@ trigger:
 
 steps:
   - name: database healthcheck
-    image: 'postgres:14.3-alpine'
+    image: 'postgres:14.4-alpine'
     environment:
       PGUSER: postgres
       PGPASSWORD: postgres
@@ -75,7 +75,7 @@ steps:
 
 services:
   - name: db
-    image: 'postgres:14.3-alpine'
+    image: 'postgres:14.4-alpine'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
