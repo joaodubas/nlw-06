@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   db:
-    image: 'postgres:14.4-alpine'
+    image: 'postgres:14.5-alpine'
     hostname: &db_host db
     init: true
     environment:
