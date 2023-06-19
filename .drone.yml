@@ -18,7 +18,7 @@ steps:
       - while ! pg_isready; do sleep 1; done
 
   - name: restore cache
-    image: 'meltwater/drone-cache:v1.3.0'
+    image: 'meltwater/drone-cache:v1.4.0'
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: minio_user
@@ -54,7 +54,7 @@ steps:
       - make static_code_analysis
 
   - name: rebuild cache
-    image: 'meltwater/drone-cache:v1.3.0'
+    image: 'meltwater/drone-cache:v1.4.0'
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: minio_user
