@@ -11,6 +11,7 @@ defmodule WabanexWeb.Schema.Types.Custom.DateRangeTest do
     import_types Types.Custom.DateRange
 
     query do
+      field :everything, :string, resolve: fn _, _, _ -> "is awesome" end
     end
   end
 

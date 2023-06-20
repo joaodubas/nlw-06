@@ -15,7 +15,7 @@ services:
       - 'db_data:/var/lib/postgresql/data'
     restart: unless-stopped
   app:
-    image: 'elixir:1.14.4'
+    image: 'elixir:1.14.5'
     hostname: app
     depends_on:
       - db
