@@ -27,7 +27,7 @@ steps:
     settings:
       archive_format: gzip
       bucket: trainlog-cache
-      cache_key: '{{ .Repo.Name }}-{{ checksum "mix.lock" }}'
+      cache_key: '{{ .Repo.Name }}-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}'
       endpoint: minio:9000
       mount:
         - _build
@@ -37,7 +37,7 @@ steps:
       restore: true
 
   - name: test
-    image: 'elixir:1.14.5'
+    image: 'elixir:1.15.4-slim'
     environment:
       MIX_ENV: test
       POSTGRES_HOST: db
@@ -45,13 +45,17 @@ steps:
       POSTGRES_PASS: postgres
     commands:
       - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
-      - make test
+      - mix compile
+      - mix test --cover --trace --slowest 10
 
   - name: lint
-    image: 'elixir:1.14.5'
+    image: 'elixir:1.15.4-slim'
     commands:
       - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
-      - make static_code_analysis
+      - mix compile
+      - mix format --check-formatted
+      - mix credo suggest --strict --format=flycheck
+      - mix dialyzer --no-check --quiet --ignore-exit-status --format short
 
   - name: rebuild cache
     image: 'meltwater/drone-cache:v1.4.0'
@@ -63,7 +67,7 @@ steps:
     settings:
       archive_format: gzip
       bucket: trainlog-cache
-      cache_key: '{{ .Repo.Name }}-{{ checksum "mix.lock" }}'
+      cache_key: '{{ .Repo.Name }}-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}'
       endpoint: minio:9000
       exit_code: true
       mount:
