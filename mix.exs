@@ -35,7 +35,7 @@ defmodule Wabanex.MixProject do
       {:crudry, "~> 2.4.0"},
       {:dialyxir, "~> 1.3.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10.0"},
-      {:gettext, "~> 0.22.0"},
+      {:gettext, "~> 0.23.0"},
       {:jason, "~> 1.4.0"},
       {:junit_formatter, "~> 3.3.0", only: [:test]},
       {:lcov_ex, "~> 0.3.0", only: [:dev, :test], runtime: false},
