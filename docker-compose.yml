@@ -1,7 +1,7 @@
 ---
 services:
   db:
-    image: 'postgres:15.3-alpine'
+    image: 'postgres:15.4-alpine'
     hostname: &db_host db
     init: true
     environment:
