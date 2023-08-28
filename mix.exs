@@ -33,7 +33,7 @@ defmodule Wabanex.MixProject do
       {:absinthe_plug, "~> 1.5.0"},
       {:credo, "~> 1.7.0", only: [:dev, :test], runtime: false},
       {:crudry, "~> 2.4.0"},
-      {:dialyxir, "~> 1.3.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.10.0"},
       {:gettext, "~> 0.23.0"},
       {:jason, "~> 1.4.0"},
