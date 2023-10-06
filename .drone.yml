@@ -37,7 +37,7 @@ steps:
       restore: true
 
   - name: test
-    image: 'elixir:1.15.4-slim'
+    image: 'elixir:1.15.6-slim'
     environment:
       MIX_ENV: test
       POSTGRES_HOST: db
@@ -49,7 +49,7 @@ steps:
       - mix test --cover --trace --slowest 10
 
   - name: lint
-    image: 'elixir:1.15.4-slim'
+    image: 'elixir:1.15.6-slim'
     commands:
       - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
       - mix compile
