@@ -46,7 +46,7 @@ defmodule Wabanex.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.0"},
       {:plug_cowboy, "~> 2.6.0"},
       {:postgrex, "~> 0.17.0"},
-      {:prom_ex, "~> 1.8.0"},
+      {:prom_ex, "~> 1.9.0"},
       {:telemetry_metrics, "~> 0.6.0"},
       {:telemetry_poller, "~> 1.0.0"}
     ]
