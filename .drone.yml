@@ -9,7 +9,7 @@ trigger:
 
 steps:
   - name: database healthcheck
-    image: 'postgres:16.0-alpine'
+    image: &postgres 'postgres:16.0-alpine'
     environment:
       PGUSER: postgres
       PGPASSWORD: postgres
@@ -18,7 +18,7 @@ steps:
       - while ! pg_isready; do sleep 1; done
 
   - name: restore cache
-    image: 'meltwater/drone-cache:v1.4.0'
+    image: &drone_cache 'meltwater/drone-cache:v1.4.0'
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: minio_user
@@ -37,7 +37,7 @@ steps:
       restore: true
 
   - name: test
-    image: 'elixir:1.15.7-slim'
+    image: &elixir 'elixir:1.15.7-slim'
     environment:
       MIX_ENV: test
       POSTGRES_HOST: db
@@ -48,17 +48,8 @@ steps:
       - mix compile
       - mix test --cover --trace --slowest 10
 
-  - name: lint
-    image: 'elixir:1.15.7-slim'
-    commands:
-      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
-      - mix compile
-      - mix format --check-formatted
-      - mix credo suggest --strict --format=flycheck
-      - mix dialyzer --no-check --quiet --ignore-exit-status --format short
-
   - name: rebuild cache
-    image: 'meltwater/drone-cache:v1.4.0'
+    image: *drone_cache
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: minio_user
@@ -79,7 +70,97 @@ steps:
 
 services:
   - name: db
-    image: 'postgres:16.0-alpine'
+    image: *postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+
+---
+kind: pipeline
+type: docker
+name: lint
+
+trigger:
+  event:
+    - pull_request
+
+steps:
+  - name: restore cache
+    image: &drone_cache 'meltwater/drone-cache:v1.4.0'
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio_user
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio_password
+    settings:
+      archive_format: gzip
+      bucket: trainlog-cache
+      cache_key: '{{ .Repo.Name }}-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}'
+      endpoint: minio:9000
+      mount:
+        - _build
+        - deps
+      path_style: true
+      region: us-east-1
+      restore: true
+
+  - name: compile app
+    image: &elixir 'elixir:1.15.7-slim'
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix compile --all-warnings --warnings-as-errors
+
+  - name: audit deps
+    image: *elixir
+    commands:
+      - apt-get update
+      - apt-get install -y git
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix hex.audit
+      - mix deps.audit
+      - mix deps.unlock --check-unused
+      # - mix hex.outdated
+
+  - name: format check
+    image: *elixir
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix format --dry-run --check-formatted
+
+  - name: credo check
+    image: *elixir
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix credo suggest --strict --format=flycheck
+
+  - name: dialyzer check
+    image: *elixir
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix dialyzer --no-check --quiet --ignore-exit-status --format short
+
+  - name: sobelow check
+    image: *elixir
+    commands:
+      - mix do local.rebar --force, local.hex --force, deps.get, deps.compile
+      - mix sobelow
+
+  - name: rebuild cache
+    image: *drone_cache
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio_user
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio_password
+    settings:
+      archive_format: gzip
+      bucket: trainlog-cache
+      cache_key: '{{ .Repo.Name }}-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}'
+      endpoint: minio:9000
+      exit_code: true
+      mount:
+        - _build
+        - deps
+      path_style: true
+      rebuild: true
+      region: us-east-1

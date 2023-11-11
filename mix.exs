@@ -39,6 +39,7 @@ defmodule Wabanex.MixProject do
       {:jason, "~> 1.4.0"},
       {:junit_formatter, "~> 3.3.0", only: [:test]},
       {:lcov_ex, "~> 0.3.0", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 2.1.0", only: [:dev, :test], runtime: false},
       {:pg_ranges, "~> 1.1.0"},
       {:phoenix, "~> 1.7.0"},
       {:phoenix_ecto, "~> 4.4.0"},
@@ -47,6 +48,7 @@ defmodule Wabanex.MixProject do
       {:plug_cowboy, "~> 2.6.0"},
       {:postgrex, "~> 0.17.0"},
       {:prom_ex, "~> 1.9.0"},
+      {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
       {:telemetry_metrics, "~> 0.6.0"},
       {:telemetry_poller, "~> 1.0.0"}
     ]

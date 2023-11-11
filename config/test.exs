@@ -16,7 +16,7 @@ config :wabanex, WabanexWeb.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :junit_formatter,
   report_file: "test_report.xml",

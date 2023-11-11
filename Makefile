@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-COMPOSE = docker-compose -f docker-compose.yml -f docker-compose.override.yml
+COMPOSE = docker compose -f docker-compose.yml -f docker-compose.override.yml
 
 .PHONY: setup
 setup:  ## setup project
@@ -35,6 +35,17 @@ compose_up:  ## start containers for this service
 .PHONY: compose_test
 compose_test:  ## run tests in containers
 	@$(COMPOSE) run -e MIX_ENV=test --entrypoint make app test
+
+.PHONY: compose_database_create
+compose_database_create:
+	@$(COMPOSE) --profile setup run db_setup
+
+.PHONY: compose_database_migrate
+compose_database_migrate:  ## apply migrations to our database
+	@$(COMPOSE) --profile migrate run db_migrate
+
+.PHONY: compose_database_setup
+compose_database_setup: compose_database_create compose_database_migrate  ## create and apply migrations
 
 .PHONY: compose_ps
 compose_ps:  ## status of containers
