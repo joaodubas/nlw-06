@@ -1,4 +1,4 @@
-FROM elixir:1.15.7-slim AS builder
+FROM hexpm/elixir:1.16.1-erlang-26.2.2-debian-bookworm-20240130-slim AS builder
 
 RUN apt-get update \
   && apt-get -y install make

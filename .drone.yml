@@ -37,7 +37,7 @@ steps:
       restore: true
 
   - name: test
-    image: &elixir 'elixir:1.15.7-slim'
+    image: &elixir 'hexpm/elixir:1.16.1-erlang-26.2.2-debian-bookworm-20240130-slim'
     environment:
       MIX_ENV: test
       POSTGRES_HOST: db
